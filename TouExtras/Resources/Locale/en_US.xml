@@ -55,4 +55,8 @@
     <string name="TouModifierHangryEatButton">Eat</string>
     <string name="DiedToBakerMuffin">Didn't satisfy hunger</string>
     <string name="TouRoleBakerCravingNotif">You really want a muffin right now...</string>
+    <!-- Baker Options -->
+    <string name="TouOptionBakerMuffinDuration">Muffin Duration</string>
+    <string name="TouRoleBaker">Baker</string>
+    <string name="TouRoleBakerIntroBlurb">Bake some muffins to kill the other players!</string>
 </resources>

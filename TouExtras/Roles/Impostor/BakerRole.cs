@@ -1,5 +1,6 @@
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
+using JetBrains.Annotations;
 using MiraAPI.Events;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
@@ -126,12 +127,12 @@ public sealed class BakerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRo
             role.Muffie = Muffin.CreateMuffin(player, position);
         }
         
-        Coroutines.Start(Muffin.MuffinShowTarget(target, position));
+        /*Coroutines.Start(Muffin.MuffinShowTarget(target, position));*/
         role.Muffie?.Detonate(target);
         
         
     }
-    
+
 
     
 }

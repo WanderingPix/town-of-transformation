@@ -81,8 +81,16 @@ public sealed class Muffin : IDisposable
 
         if (MeetingHud.Instance || ExileController.Instance)
         {
-            _obj.Destroy();
-            yield break;
+            if (target.HasModifier<HangryModifier>())
+            {
+                PlayerControl.LocalPlayer.RpcSpecialMurder(
+                    target,
+                    teleportMurderer: false,
+                    showKillAnim: false,
+                    causeOfDeath: "BakerMuffin");
+
+            
+            }
         }
         if (target.HasModifier<HangryModifier>())
         {
@@ -109,7 +117,7 @@ public sealed class Muffin : IDisposable
     }
 
 
-    public static IEnumerator MuffinShowTarget(PlayerControl player, Vector3 location)
+/*    public static IEnumerator MuffinShowTarget(PlayerControl player, Vector3 location)
     {
         var muffin = CreateMuffin(player, location);
 
@@ -121,10 +129,10 @@ public sealed class Muffin : IDisposable
         }
         catch
         {
-            /* ignored */
+            /* ignored \*\/
         }
     }
-
+*/
     public void Destroy()
     {
         Dispose();

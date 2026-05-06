@@ -72,7 +72,6 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<BakerOptions>.Instance.BakeCooldown, 5f, 120f);
 
-    public override int MaxUses => 5;
     public override LoadableAsset<Sprite> Sprite => TouCrewAssets.Transport;
 
     public override void ClickHandler()
@@ -114,14 +113,10 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
 
                 BakerRole.RpcPlaceMuffin(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.transform.position, plr);
                 plr.RpcAddModifier<HangryModifier>();
-                var hangryPlayers = ModifierUtils.GetPlayersWithModifier<HangryModifier>();
-                hangryPlayers.Do(x =>
-                {
-                    var notif1 = Helpers.CreateAndShowNotification(
-                        TouLocale.GetParsed("TouRoleBakerCravingNotif", "You really want a muffin right now..."),
-                        Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
-                    notif1.AdjustNotification();
-                });
+                
+                
+
+                
                 ExtrasGlobalVars.MuffinPos = PlayerControl.LocalPlayer.transform.position;
             }
         );

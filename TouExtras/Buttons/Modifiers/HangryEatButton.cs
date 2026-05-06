@@ -58,7 +58,7 @@ public sealed class HangryEatButton : TownOfUsButton
 {
     [HideFromIl2Cpp] public Muffin? Muffie { get; set; }
     public override float Cooldown => 0f;
-    public override int MaxUses => 1;
+
     public override string Name => TouLocale.GetParsed("TouModifierHangryEatButton", "Eat");
     public override BaseKeybind Keybind => Keybinds.ModifierAction;
     public override Color TextOutlineColor => TownOfUsColors.ButtonBarry;
@@ -75,7 +75,7 @@ public sealed class HangryEatButton : TownOfUsButton
     public override bool CanUse()
     {
         
-        return Vector3.Distance(PlayerControl.LocalPlayer.transform.position, ExtrasGlobalVars.MuffinPos) < 0.3f;
+        return Vector3.Distance(PlayerControl.LocalPlayer.transform.position, ExtrasGlobalVars.MuffinPos) < 3f;
     }
 
     protected override void OnClick()
