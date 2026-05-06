@@ -111,9 +111,5 @@ public sealed class InfiltratorRole(IntPtr cppPtr)
         var console = usable.TryCast<Console>()!;
         return console == null || console.AllowImpostor;
     }
-
-    public override bool DidWin(GameOverReason gameOverReason)
-    {
-        return true; // Impostors win when the game ends
-    }
+    
 }
