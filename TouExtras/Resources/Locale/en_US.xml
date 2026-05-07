@@ -55,6 +55,7 @@
     <string name="TouModifierHangryEatButton">Eat</string>
     <string name="DiedToBakerMuffin">Didn't satisfy hunger</string>
     <string name="TouRoleBakerCravingNotif">You really want a muffin right now...</string>
+    <string name="TouRoleBakerCravingSatisfiedNotif">You eat the muffin and feel satisfied!</string>
     <!-- Baker Options -->
     <string name="TouOptionBakerMuffinDuration">Muffin Duration</string>
     <string name="TouRoleBaker">Baker</string>

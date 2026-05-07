@@ -94,11 +94,7 @@ public sealed class Muffin : IDisposable
         }
         if (target.HasModifier<HangryModifier>())
         {
-            PlayerControl.LocalPlayer.RpcSpecialMurder(
-                    target,
-                    teleportMurderer: false,
-                    showKillAnim: false,
-                    causeOfDeath: "BakerMuffin");
+
 
             
         }
@@ -110,7 +106,7 @@ public sealed class Muffin : IDisposable
         return new Muffin
         {
             _obj = MiscUtils.CreateSpherePrimitive(location,
-                0.1f),
+                0.05f),
             _baker = player
         };
         

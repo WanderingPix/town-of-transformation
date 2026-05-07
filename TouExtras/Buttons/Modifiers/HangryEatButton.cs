@@ -75,12 +75,17 @@ public sealed class HangryEatButton : TownOfUsButton
     public override bool CanUse()
     {
         
-        return Vector3.Distance(PlayerControl.LocalPlayer.transform.position, ExtrasGlobalVars.MuffinPos) < 3f;
+        return Vector3.Distance(PlayerControl.LocalPlayer.transform.position, ExtrasGlobalVars.MuffinPos) < 1f;
     }
 
     protected override void OnClick()
     {
         Muffie?.Destroy();
         PlayerControl.LocalPlayer.RemoveModifier<HangryModifier>();
+        ExtrasGlobalVars.MuffinEaten = true;
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("TouRoleBakerCravingSatisfiedNotif", "You eat the muffin and feel satisfied!"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        ExtrasGlobalVars.MuffinTarget.AddModifier<HangryModifier>();
     }
 }

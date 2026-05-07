@@ -100,8 +100,7 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
 
         player1Menu.Begin(
-            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)) &&
-                   (plr.moveable || plr.inVent),
+            plr => ((!plr.Data.Disconnected && !plr.Data.IsDead) || Helpers.GetBodyById(plr.PlayerId)),
             plr =>
             {
                 player1Menu.Close();
@@ -111,13 +110,16 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
                     return;
                 }
 
-                BakerRole.RpcPlaceMuffin(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.transform.position, plr);
-                plr.RpcAddModifier<HangryModifier>();
+                plr.RpcAddModifier<PreHangryModifier>();
                 
                 
 
                 ExtrasGlobalVars.MuffinTarget = plr;
                 ExtrasGlobalVars.MuffinPos = PlayerControl.LocalPlayer.transform.position;
+                ExtrasGlobalVars.MuffinEaten = false;
+
+                BakerRole.RpcPlaceMuffin(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.transform.position, plr);
+
             }
         );
         foreach (var panel in player1Menu.potentialVictims)

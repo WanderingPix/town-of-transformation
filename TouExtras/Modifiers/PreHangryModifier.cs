@@ -86,96 +86,35 @@ using JetBrains.Annotations;
 using Il2CppMono.Security.Authenticode;
 using System.Collections;
 
-using System.Collections;
-using MiraAPI.GameOptions;
-using MiraAPI.Modifiers;
-using MiraAPI.Networking;
-using MiraAPI.Utilities;
-using Reactor.Utilities;
-using Reactor.Utilities.Extensions;
-using TownOfUs.Modifiers;
-using TownOfUs.Networking;
-using TownOfUs.Options.Roles.Impostor;
-using UnityEngine;
-
-using AmongUs.GameOptions;
-using Il2CppInterop.Runtime.Attributes;
-using MiraAPI.Events;
-
-using MiraAPI.Hud;
-using MiraAPI.LocalSettings;
-
-using MiraAPI.Patches.Stubs;
-using MiraAPI.Roles;
-
-using Reactor.Networking.Attributes;
-
-using TouExtras.Assets;
-using TouExtras.Buttons.Impostor;
-using TouExtras.Options.Roles.Impostor;
-using TouExtras.Modifiers;
-using TownOfUs;
-using TownOfUs.Assets;
-using TownOfUs.Buttons.Crewmate;
-using TownOfUs.Buttons.Impostor;
-using TownOfUs.Events.Crewmate;
-using TownOfUs.Events.TouEvents;
-using TownOfUs.Extensions;
-using TownOfUs.Interfaces;
-
-using TownOfUs.Modifiers.Crewmate;
-using TownOfUs.Modifiers.Game.Universal;
-using TownOfUs.Modifiers.Impostor;
-using TownOfUs.Modifiers.Neutral;
-using TownOfUs.Modules;
-using TownOfUs.Modules.Localization;
-using TownOfUs.Modules.Wiki;
-using TownOfUs.Options.Roles.Crewmate;
-using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
-using TownOfUs.Roles.Impostor;
-using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
-
-using TouExtras.Modules;
-
-
-
 
 
 namespace TouExtras.Modifiers;
 
-public sealed class HangryModifier : TimedModifier
+public sealed class PreHangryModifier : TimedModifier
 {
     [HideFromIl2Cpp] public Muffin? Muffie { get; set; }
-    public override string ModifierName => "Hangry";
+    public override float Duration => 0.1f;
+    public override string ModifierName => "PreHangry";
     public override bool HideOnUi => false;
-    public override float Duration => OptionGroupSingleton<BakerOptions>.Instance.MuffinTime;
 
     public override void OnActivate()
     {
-        Muffie = Muffin.CreateMuffin(ExtrasGlobalVars.MuffinTarget, ExtrasGlobalVars.MuffinPos);
+        
         
         
 
     }
-    public override void OnDeath(DeathReason reason)
-    {
-        
-        ExtrasGlobalVars.MuffinTarget.RpcRemoveModifier<HangryModifier>();
-    }
     public override void OnDeactivate()
     {
-        Muffie?.Destroy();
-        if (!ExtrasGlobalVars.MuffinEaten)
-        {
-        ExtrasGlobalVars.MuffinTarget.RpcSpecialMurder(
-                    ExtrasGlobalVars.MuffinTarget,
-                    teleportMurderer: false,
-                    showKillAnim: false,
-                    causeOfDeath: "BakerMuffin");
-        }
+        
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("TouRoleBakerCravingNotif", "You really want a muffin right now..."),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        ExtrasGlobalVars.MuffinTarget.AddModifier<HangryModifier>();
+        
         
     }
 
 }
+
+

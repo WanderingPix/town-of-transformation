@@ -7,6 +7,7 @@ public static class ExtrasGlobalVars
 {
     public static Vector3 MuffinPos { get; set; }
     public static PlayerControl MuffinTarget { get; set; }
+    public static bool MuffinEaten { get; set; }
 }
 
 }
