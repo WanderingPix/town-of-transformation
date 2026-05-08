@@ -19,26 +19,15 @@ using TouExtras.Modifiers;
 using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles.Crewmate;
 using TouExtras.Modules;
-
 using AmongUs.GameOptions;
 using Il2CppInterop.Runtime.Attributes;
 using MiraAPI.Events;
-using MiraAPI.GameOptions;
-using MiraAPI.Hud;
 using MiraAPI.LocalSettings;
-using MiraAPI.Modifiers;
-using MiraAPI.Networking;
 using MiraAPI.Patches.Stubs;
 using MiraAPI.Roles;
-using MiraAPI.Utilities;
 using Reactor.Networking.Attributes;
-using Reactor.Utilities;
-using TouExtras.Assets;
 using TouExtras.Buttons.Impostor;
-using TouExtras.Modules;
-using TouExtras.Options.Roles.Impostor;
 using TownOfUs;
-using TownOfUs.Assets;
 using TownOfUs.Buttons.Crewmate;
 using TownOfUs.Buttons.Impostor;
 using TownOfUs.Events.Crewmate;
@@ -53,14 +42,24 @@ using TownOfUs.Modifiers.Neutral;
 using TownOfUs.Modules;
 using TownOfUs.Modules.Localization;
 using TownOfUs.Modules.Wiki;
-using TownOfUs.Options.Roles.Crewmate;
 using TownOfUs.Roles;
-using TownOfUs.Roles.Crewmate;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using TownOfUs.Utilities;
-using UnityEngine;
 using HarmonyLib;
+using MiraAPI.Modifiers.Types;
+using TownOfUs.Options.Modifiers;
+using TownOfUs.Options.Modifiers.Universal;
+using TownOfUs.Options.Roles.Neutral;
+using TownOfUs.Events;
+using JetBrains.Annotations;
+using Il2CppMono.Security.Authenticode;
+using System.Collections;
+using TownOfUs.Utilities.Appearances;
+using Reactor.Utilities.Extensions;
+using TownOfUs.Networking;
+using TownOfUs.Options.Roles.Impostor;
+using TownOfUs.Options;
+using TownOfUs.Patches;
 
 namespace TouExtras.Buttons.Impostor;
 
@@ -72,9 +71,11 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
     public override float Cooldown =>
         Math.Clamp(OptionGroupSingleton<BakerOptions>.Instance.BakeCooldown, 5f, 120f);
 
-    public override LoadableAsset<Sprite> Sprite => TouCrewAssets.Transport;
+    public override float EffectDuration => OptionGroupSingleton<BakerOptions>.Instance.MuffinTime;
 
-    /*public override void ClickHandler()
+    public override LoadableAsset<Sprite> Sprite => TouNeutAssets.ChefCookSprite;
+
+    public override void ClickHandler()
     {
         if (!CanClick())
         {
@@ -82,7 +83,7 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
         }
 
         OnClick();
-    }*/
+    }
 
     protected override void OnClick()
     {
@@ -135,5 +136,32 @@ public sealed class BakerBakeButton : TownOfUsRoleButton<BakerRole>
 
                 BakerRole.RpcPlaceMuffin(PlayerControl.LocalPlayer, PlayerControl.LocalPlayer.transform.position, plr);
 
+                EffectActive = true;
+                Timer = EffectDuration;
+
             }
+
+    public void ForceEffectEnd()
+    {
+        Timer = 0f;
+    }
+    public override void OnEffectEnd()
+    {
+        if (!ExtrasGlobalVars.MuffinEaten)
+        {
+        PlayerControl.LocalPlayer.RpcSpecialMurder(
+                ExtrasGlobalVars.MuffinTarget,
+                teleportMurderer: false,
+                showKillAnim: true,
+                causeOfDeath: "BakerMuffin",
+                resetKillTimer: false);
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("TouRoleBakerKilledThroughCravingNotif", "Your craving victim couldn't find your delicious muffin in time... They died."),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        } else {
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("TouRoleBakerTargetSatisfiedCravingNotif", "Your craving victim satisfied their hunger with your delicious muffin! They survived."),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        }
+    }
 }

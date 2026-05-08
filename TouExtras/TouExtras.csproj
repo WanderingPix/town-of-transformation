@@ -4,7 +4,7 @@
         <LangVersion>latest</LangVersion>
         <DebugType>embedded</DebugType>
 
-        <VersionPrefix>1.0.0</VersionPrefix>
+        <VersionPrefix>1.0.0.1</VersionPrefix>
         <VersionSuffix>dev</VersionSuffix>
         <RootNamespace>TouExtras</RootNamespace>
         <Description>My self-made beautiful mod. Kinda just adds impostor versions of several roles.</Description>

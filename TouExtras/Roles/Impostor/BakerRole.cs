@@ -69,7 +69,7 @@ public sealed class BakerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRo
             {
                 new(TouLocale.GetParsed($"TouRole{LocaleKey}BakeWiki", "Bake"),
                     TouLocale.GetParsed($"TouRole{LocaleKey}BakeWikiDescription"),
-                    TouAssets.SwapActive)
+                    TouNeutAssets.ChefCookSprite)
             };
         }
     }
@@ -82,7 +82,7 @@ public sealed class BakerRole(IntPtr cppPtr) : ImpostorRole(cppPtr), ITownOfUsRo
     public CustomRoleConfiguration Configuration => new(this)
     {
         
-        Icon = TouRoleIcons.Swapper,
+        Icon = TouRoleIcons.Chef,
         OptionsScreenshot = TouBanners.ImpostorRoleBanner,
         MaxRoleCount = 1,
         IntroSound = TouAudio.TimeLordIntroSound

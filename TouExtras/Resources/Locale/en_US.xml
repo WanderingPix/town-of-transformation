@@ -60,4 +60,12 @@
     <string name="TouOptionBakerMuffinDuration">Muffin Duration</string>
     <string name="TouRoleBaker">Baker</string>
     <string name="TouRoleBakerIntroBlurb">Bake some muffins to kill the other players!</string>
+    <string name="TouRoleBakerTabDescription">Bake a muffin and choose a player who gets a craving for the muffin. If they don't find it in time, they'll die. It's quite simple, really.</string>
+    <string name="TouRoleBakerWikiDescription">The Baker is an Impostor role. The Baker can bake a muffin, and choose a player who gets a craving for the muffin. If the targeted player doesn't find the muffin in time, they'll die.</string>
+    <string name="TouRoleBakerBakeWiki">Bake</string>
+    <string name="TouRoleBakerBakeWikiDescription">Drop a muffin at your current location and choose a player. That player has a configurable amount of time to find the muffin. If they don't, they'll die. You will be notified when and if they die.</string>
+
+
+    <string name="TouRoleBakerKilledThroughCravingNotif">Your craving victim couldn't find your delicious muffin in time... They died.</string>
+    <string name="TouRoleBakerTargetSatisfiedCravingNotif">Your craving victim satisfied their hunger with your delicious muffin! They survived.</string>
 </resources>
