@@ -166,14 +166,18 @@ public sealed class HangryModifier : TimedModifier
     }
     public override void OnDeactivate()
     {
+        if (PlayerControl.LocalPlayer == ExtrasGlobalVars.MuffinTarget || PlayerControl.LocalPlayer.PlayerId == ExtrasGlobalVars.MuffinTarget.PlayerId)
+        {
         Muffie?.Destroy();
         if (!ExtrasGlobalVars.MuffinEaten)
         {
-        ExtrasGlobalVars.MuffinTarget.RpcSpecialMurder(
-                    ExtrasGlobalVars.MuffinTarget,
+        PlayerControl.LocalPlayer.RpcSpecialMurder(
+                    PlayerControl.LocalPlayer,
                     teleportMurderer: false,
                     showKillAnim: false,
-                    causeOfDeath: "BakerMuffin");
+                    causeOfDeath: "BakerMuffin",
+                    resetKillTimer: false);
+        }
         }
         
     }

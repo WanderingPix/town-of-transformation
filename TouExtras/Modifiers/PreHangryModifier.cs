@@ -106,12 +106,23 @@ public sealed class PreHangryModifier : TimedModifier
     }
     public override void OnDeactivate()
     {
+        if (PlayerControl.LocalPlayer == ExtrasGlobalVars.MuffinTarget)
+        {
         
         Helpers.CreateAndShowNotification(
             TouLocale.GetParsed("TouRoleBakerCravingNotif", "You really want a muffin right now..."),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
         ExtrasGlobalVars.MuffinTarget.AddModifier<HangryModifier>();
+        }
+        if (PlayerControl.LocalPlayer.IsRole<BakerRole>())
+         {
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("nothin for this heeee", ExtrasGlobalVars.MuffinTarget.name),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+         }
         
+        
+
         
     }
 
