@@ -73,6 +73,8 @@ Buttons/Neutral/
  FortegreenDisguiseButton.cs
  FortegreenKillButton.cs
  FortegreenTransformButton.cs
+ RichGuyShopButton.cs
+CustomMonoBehaviours/RichGuyPurchases.cs
 GlobalUsings.cs
 Modifiers/
  BowTieActiveModifier.cs

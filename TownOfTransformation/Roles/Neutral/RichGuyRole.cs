@@ -57,13 +57,15 @@ public sealed class RichGuyRole(IntPtr cppPtr)
     : NeutralRole(cppPtr), ITownOfUsRole, IWikiDiscoverable
 {
     
-    
+    [HideFromIl2Cpp] public PlayerVoteArea? ExtraVoteButton { get; private set; }
     public string LocaleKey => "RichGuy";
     public string RoleName => TouLocale.Get($"ExampleRole{LocaleKey}", "Rich Guy");
     public string RoleDescription => TouLocale.GetParsed($"ExampleRole{LocaleKey}IntroBlurb", "Do your tasks to get money!");
     public string RoleLongDescription => TouLocale.GetParsed($"ExampleRole{LocaleKey}TabDescription", "You have {money} money.").Replace("{money}",Money.ToString());
     public float Money { get; set; } = 0f;
     private int PrevComp = 0;
+
+
     public string GetAdvancedDescription()
     {
         return
@@ -91,6 +93,11 @@ public sealed class RichGuyRole(IntPtr cppPtr)
     public RoleAlignment RoleAlignment => RoleAlignment.NeutralOutlier;
 
     public GameObject shopui;
+    public float ExtraLifePrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialLifePrice;
+    public float GoldifyPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialGoldifyPrice;
+    public float RevealerPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialRevealPrice;
+    public float ZoomoutPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialZoomoutPrice;
+    public float ExtraVotePrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialExtraVotePrice;
 
     public CustomRoleConfiguration Configuration => new(this)
     {
@@ -142,6 +149,7 @@ public sealed class RichGuyRole(IntPtr cppPtr)
 
         shopui = UnityEngine.Object.Instantiate(NormalAssets.RichGuyShopUI.LoadAsset());
         shopui.transform.localPosition = new Vector3(0, 0, 10);
+        shopui.SetActive(false);
 
     }
 

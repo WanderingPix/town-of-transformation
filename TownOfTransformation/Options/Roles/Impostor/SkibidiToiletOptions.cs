@@ -14,8 +14,8 @@ public sealed class SkibidiToiletOptions : AbstractOptionGroup<SkibidiToiletRole
     [ModdedNumberOption("Skibidi Toilet Poop Cooldown", 5f, 120f, 2.5f, MiraNumberSuffixes.Seconds)]
     public float PoopCooldown { get; set; } = 30f;
 
-    [ModdedNumberOption("Skibidi Toilet Poop Duration", 0f, 120f, 5f, MiraNumberSuffixes.Seconds, "Forever")]
+    [ModdedNumberOption("Skibidi Toilet Poop Duration", 0f, 120f, 5f, MiraNumberSuffixes.Seconds, zeroInfinity:true)]
     public float PoopDuration { get; set; } = 45f;
-    [ModdedNumberOption("Skibidi Toilet Poop Range", 0f, 2f, 0.1f, MiraNumberSuffixes.Seconds, "Anywhere")]
+    [ModdedNumberOption("Skibidi Toilet Poop Range", 0f, 2f, 0.1f, MiraNumberSuffixes.None, zeroInfinity:true)]
     public float PoopRange { get; set; } = 1f;
 }
