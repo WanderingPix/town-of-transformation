@@ -72,16 +72,16 @@ public sealed class RichGuyTestModifier() : BaseModifier
     {
         if (Player.AmOwner)
         {
-        shopui = UnityEngine.Object.Instantiate(NormalAssets.RichGuyShopUI.LoadAsset());
-        shopui.transform.localPosition = new Vector3(0, 0, 10);
-        shopui.gameObject.SetActive(true);
+            shopui = UnityEngine.Object.Instantiate(NormalAssets.RichGuyShopUI.LoadAsset());
+            shopui.transform.localPosition = new Vector3(0, 0, 10);
+            shopui.gameObject.SetActive(true);
         }
     }
     public override void OnDeactivate()
     {
         if (Player.AmOwner)
         {
-        shopui.Destroy();
+            shopui.Destroy();
         }
     }
 }

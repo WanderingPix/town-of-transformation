@@ -1,15 +1,15 @@
 ManifestFileVersion: 0
-CRC: 968503264
+CRC: 3081875890
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0b48385cca02e0464fb89ad80c6bf7fe
+    Hash: 474766169594c0f98992bfab46176aee
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 89590167b613b1e12b33da1c1bfc1afe
+    Hash: 7857b1e28810ac03ae29902af50fb564
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 0b48385cca02e0464fb89ad80c6bf7fe
+    Hash: 474766169594c0f98992bfab46176aee
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,9 +25,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 115
@@ -37,6 +41,8 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 - Class: 222
+  Script: {instanceID: 0}
+- Class: 223
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
@@ -81,8 +87,8 @@ Assets:
 - Assets/UI.png
 - Assets/SkibidiWalk.anim
 - Assets/SkibidiIdle.anim
+- Assets/RichGuyUI.prefab
 - Assets/amongodollar 1.png
-- Assets/Shop.prefab
 - Assets/purchasebg.png
 - Assets/little guy.png
 - Assets/spritesheetidle.png

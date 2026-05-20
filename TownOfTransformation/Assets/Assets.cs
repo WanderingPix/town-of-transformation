@@ -13,7 +13,7 @@ public static class NormalAssets
     public static LoadableBundleAsset<AnimationClip> LilGuyAnimation { get; } = new("lil guy.anim", Bundle);
     public static LoadableBundleAsset<AnimationClip> SkibidiWalkAnimation { get; } = new("SkibidiWalk.anim", Bundle);
     public static LoadableBundleAsset<AnimationClip> SkibidiIdleAnimation { get; } = new("SkibidiIdle.anim", Bundle);
-    public static LoadableBundleAsset<GameObject> RichGuyShopUI { get; } = new("Shop.prefab", Bundle);
+    public static LoadableBundleAsset<GameObject> RichGuyShopUI { get; } = new("RichGuyUI.prefab", Bundle);
 
     
     

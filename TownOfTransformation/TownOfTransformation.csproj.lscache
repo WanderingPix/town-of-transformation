@@ -101,7 +101,9 @@ Options/
   EvilSwapperOptions.cs
   SkibidiToiletOptions.cs
   SoulEaterOptions.cs
- Roles/Neutral/FortegreenOptions.cs
+ Roles/Neutral/
+  FortegreenOptions.cs
+  RichGuyOptions.cs
 Patches/
  APatch.cs
  EvilSwapperEvents.cs
@@ -112,7 +114,9 @@ Roles/Impostor/
  EvilSwapperRole.cs
  SkibidiToilet.cs
  SoulEaterRole.cs
-Roles/Neutral/FortegreenRole.cs
+Roles/Neutral/
+ FortegreenRole.cs
+ RichGuyRole.cs
 ToTKeybinds.cs
 TouExampleColors.cs
 TouExamplePlayerColors.cs
