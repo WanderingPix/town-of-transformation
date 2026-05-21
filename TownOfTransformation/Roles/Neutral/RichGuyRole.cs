@@ -49,7 +49,9 @@ using MiraAPI.Events.Mira;
 using MiraAPI.Events.Vanilla;
 using MiraAPI.Patches;
 using MiraAPI.Events.Vanilla.Player;
-
+using UnityEngine;
+using UnityEngine.UI;
+using TownOfTransformation.CustomMonoBehaviours;
 
 namespace TownOfTransformation.Roles.Neutral;
 
@@ -94,9 +96,13 @@ public sealed class RichGuyRole(IntPtr cppPtr)
 
     public GameObject shopui;
     public float ExtraLifePrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialLifePrice;
+    public float ExtraLivesUsed { get; set; }
     public float GoldifyPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialGoldifyPrice;
+    public float GoldifiesUsed { get; set; }
     public float RevealerPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialRevealPrice;
+    public float RevealsUsed { get; set; }
     public float ZoomoutPrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialZoomoutPrice;
+    public float ZoomoutsUsed { get; set; }
     public float ExtraVotePrice { get; set; } = OptionGroupSingleton<RichGuyOptions>.Instance.InitialExtraVotePrice;
 
     public CustomRoleConfiguration Configuration => new(this)
@@ -114,18 +120,64 @@ public sealed class RichGuyRole(IntPtr cppPtr)
         Initialize(Player);
     }
 
-    
+    public void RevealPurchase()
+    {
+                PlayerControl.LocalPlayer.NetTransform.Halt();
+
+        if (Minigame.Instance)
+        {
+            return;
+        }
+
+        var player1Menu = CustomPlayerMenu.Create();
+        player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
+            PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
+        player1Menu.transform.FindChild("PhoneUI").GetChild(1).GetComponent<SpriteRenderer>().material =
+            PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
+
+        player1Menu.Begin(
+            plr => plr != null && plr != PlayerControl.LocalPlayer && !plr.Data.IsDead && !(plr.IsRole<ImpostorRole>()),
+            plr =>
+            {
+                player1Menu.Close();
+
+                if (plr == null)
+                {
+                    return;
+                }
+                Reveal(plr);
+                
+            }
+        );
+        foreach (var panel in player1Menu.potentialVictims)
+        {
+            panel.PlayerIcon.cosmetics.SetPhantomRoleAlpha(1f);
+            if (panel.NameText.text != PlayerControl.LocalPlayer.Data.PlayerName)
+            {
+                panel.NameText.color = Color.white;
+            }
+        }
+    }
+
+    public void Reveal(PlayerControl target)
+    {
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("ToTRoleRichGuyRevealNotif", "{target} is a {role}!").Replace("{target}",target.name).Replace("{role}",Helpers.GetRoleName(target.Data.Role)),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+    }
+
+    public void RevealPurchaseFailed()
+    {
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("ToTRoleRichGuyRevealNotif", "You've reached the max number of reveal uses!"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        
+    }    
 
     public bool WinConditionMet()
     {
-        var glitchCount = CustomRoleUtils.GetActiveRolesOfType<FortegreenRole>().Count(x => !x.Player.HasDied());
-
-        if (MiscUtils.KillersAliveCount > glitchCount)
-        {
-            return false;
-        }
-
-        return glitchCount >= Helpers.GetAlivePlayers().Count - glitchCount;
+        return false;
+        // change this
     }
 
     public void OffsetButtons()
@@ -150,9 +202,19 @@ public sealed class RichGuyRole(IntPtr cppPtr)
         shopui = UnityEngine.Object.Instantiate(NormalAssets.RichGuyShopUI.LoadAsset());
         shopui.transform.localPosition = new Vector3(0, 0, 10);
         shopui.SetActive(false);
+        var shop = shopui.transform.FindChild("Shop");
+        var revealer = shop.transform.FindChild("Revealer");
+        var revealerprice = revealer.transform.FindChild("Purchase");
+        Button revealertext = revealerprice.GetComponent<Button>();;
+        revealertext.onClick.AddListener(HandleRevealClick);
+        
 
     }
 
+    public void HandleRevealClick()
+    {
+        RichGuyPurchases.OnRevealPurchase(PlayerControl.LocalPlayer);
+    }
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);

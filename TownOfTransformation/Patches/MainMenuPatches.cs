@@ -1,3 +1,6 @@
+// This code is mostly from Pix (wanderingpix), so thanks Pix!
+// Pix also made a lot of assets: thanks for that too.
+using HarmonyLib;
 using MiraAPI.GameOptions;
 using MiraAPI.Hud;
 using MiraAPI.Keybinds;
@@ -45,7 +48,6 @@ using TownOfUs.Modules.Wiki;
 using TownOfUs.Roles;
 using TownOfUs.Roles.Impostor;
 using TownOfUs.Roles.Neutral;
-using HarmonyLib;
 using MiraAPI.Modifiers.Types;
 using TownOfUs.Options.Modifiers;
 using TownOfUs.Options.Modifiers.Universal;
@@ -60,38 +62,17 @@ using TownOfUs.Networking;
 using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options;
 using TownOfUs.Patches;
-using TownOfTransformation.Options.Roles.Neutral;
+using TownOfTransformation.Features.MainMenu;
 
-
-namespace TownOfTransformation.CustomMonoBehaviours;
-public class RichGuyPurchases : MonoBehaviour
+namespace TownOfTransformation.Patches;
+[HarmonyPatch]
+public class MainMenuPatches
 {
-    public void OnLifePurchase(PlayerControl richguy)
+    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Awake))]
+    [HarmonyPatch(Priority.Last)]
+    [HarmonyPostfix]
+    public static void OnMainMenuAwakePostfix(MainMenuManager __instance)
     {
-        //todo
-    }
-
-    public void OnGoldifyPurchase(PlayerControl richguy)
-    {
-        //todo
-    }
-
-    public static void OnRevealPurchase(PlayerControl richguy)
-    {
-        var role = richguy.Data.Role as RichGuyRole;
-        if (role.RevealsUsed < OptionGroupSingleton<RichGuyOptions>.Instance.MaxRevealUses)
-        {
-        role.RevealPurchase();
-        role.Money -= role.RevealerPrice;
-        role.RevealerPrice += OptionGroupSingleton<RichGuyOptions>.Instance.RevealPriceIncrease;
-        } else
-        {
-            role.RevealPurchaseFailed();
-        }
-    }
-
-    public void OnZoomoutPurchase(PlayerControl richguy)
-    {
-        //todo
+        ReworkedMainMenu.SetUp(__instance);
     }
 }

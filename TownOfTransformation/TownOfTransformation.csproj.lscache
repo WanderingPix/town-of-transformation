@@ -75,6 +75,7 @@ Buttons/Neutral/
  FortegreenTransformButton.cs
  RichGuyShopButton.cs
 CustomMonoBehaviours/RichGuyPurchases.cs
+Features/MainMenu.cs
 GlobalUsings.cs
 Modifiers/
  BowTieActiveModifier.cs
@@ -110,6 +111,7 @@ Patches/
  APatch.cs
  EvilSwapperEvents.cs
  LogoPatch.cs
+ MainMenuPatches.cs
  SoulEaterEvents.cs
 Roles/Impostor/
  BakerRole.cs
