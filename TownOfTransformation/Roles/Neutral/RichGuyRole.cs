@@ -128,7 +128,7 @@ public sealed class RichGuyRole(IntPtr cppPtr)
         {
             return;
         }
-
+        shopui.SetActive(false);
         var player1Menu = CustomPlayerMenu.Create();
         player1Menu.transform.FindChild("PhoneUI").GetChild(0).GetComponent<SpriteRenderer>().material =
             PlayerControl.LocalPlayer.cosmetics.currentBodySprite.BodySprite.material;
@@ -166,12 +166,19 @@ public sealed class RichGuyRole(IntPtr cppPtr)
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
     }
 
-    public void RevealPurchaseFailed()
+    public void RevealPurchaseFailed(int reason)
     {
+        if (reason == 1)
+        {
         Helpers.CreateAndShowNotification(
             TouLocale.GetParsed("ToTRoleRichGuyRevealNotif", "You've reached the max number of reveal uses!"),
             Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
-        
+        } else if (reason == 2)
+        {
+        Helpers.CreateAndShowNotification(
+            TouLocale.GetParsed("ToTRoleRichGuyRevealNotif", "You don't have enough money to reveal!"),
+            Color.white, new Vector3(0f, 1f, -20f), spr: TouRoleIcons.Chef.LoadAsset());
+        }
     }    
 
     public bool WinConditionMet()
@@ -183,10 +190,10 @@ public sealed class RichGuyRole(IntPtr cppPtr)
     public void OffsetButtons()
     {
         var canVent = false;
-        var transform = CustomButtonSingleton<FortegreenTransformButton>.Instance;
-        var ignite = CustomButtonSingleton<FortegreenKillButton>.Instance;
+        var transform = CustomButtonSingleton<RichGuyShopButton>.Instance;
+        
         Coroutines.Start(MiscUtils.CoMoveButtonIndex(transform, !canVent));
-        Coroutines.Start(MiscUtils.CoMoveButtonIndex(ignite, !canVent));
+        
     }
 
     public override void Initialize(PlayerControl player)
@@ -202,19 +209,33 @@ public sealed class RichGuyRole(IntPtr cppPtr)
         shopui = UnityEngine.Object.Instantiate(NormalAssets.RichGuyShopUI.LoadAsset());
         shopui.transform.localPosition = new Vector3(0, 0, 10);
         shopui.SetActive(false);
+        RichGuyPurchases.RichGuyInit(PlayerControl.LocalPlayer);
         var shop = shopui.transform.FindChild("Shop");
         var revealer = shop.transform.FindChild("Revealer");
         var revealerprice = revealer.transform.FindChild("Purchase");
-        Button revealertext = revealerprice.GetComponent<Button>();;
-        revealertext.onClick.AddListener(HandleRevealClick);
-        
+        Button revealertext = revealerprice.GetComponent<Button>();
+        revealertext.onClick.AddListener(new System.Action(HandleRevealClick));
 
     }
-
     public void HandleRevealClick()
     {
-        RichGuyPurchases.OnRevealPurchase(PlayerControl.LocalPlayer);
+        OnRevealPurchase();
     }
+
+        public void OnRevealPurchase()
+    {
+        
+        if (RevealsUsed < OptionGroupSingleton<RichGuyOptions>.Instance.MaxRevealUses && Money >= RevealerPrice)
+        {
+        RevealPurchase();
+        Money -= RevealerPrice;
+        RevealerPrice += OptionGroupSingleton<RichGuyOptions>.Instance.RevealPriceIncrease;
+        } else
+        {
+            RevealPurchaseFailed(1);
+        }
+    }
+
     public override void Deinitialize(PlayerControl targetPlayer)
     {
         RoleBehaviourStubs.Deinitialize(this, targetPlayer);

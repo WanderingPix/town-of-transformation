@@ -61,6 +61,7 @@ using TownOfUs.Options.Roles.Impostor;
 using TownOfUs.Options;
 using TownOfUs.Patches;
 using TownOfTransformation.Options.Roles.Neutral;
+using UnityEngine.UI;
 
 
 namespace TownOfTransformation.CustomMonoBehaviours;
@@ -79,19 +80,34 @@ public class RichGuyPurchases : MonoBehaviour
     public static void OnRevealPurchase(PlayerControl richguy)
     {
         var role = richguy.Data.Role as RichGuyRole;
-        if (role.RevealsUsed < OptionGroupSingleton<RichGuyOptions>.Instance.MaxRevealUses)
+        if (role.RevealsUsed < OptionGroupSingleton<RichGuyOptions>.Instance.MaxRevealUses && role.Money >= role.RevealerPrice)
         {
         role.RevealPurchase();
         role.Money -= role.RevealerPrice;
         role.RevealerPrice += OptionGroupSingleton<RichGuyOptions>.Instance.RevealPriceIncrease;
         } else
         {
-            role.RevealPurchaseFailed();
+            role.RevealPurchaseFailed(1);
         }
     }
 
     public void OnZoomoutPurchase(PlayerControl richguy)
     {
         //todo
+    }
+
+    public static void RichGuyInit(PlayerControl richguy)
+    {
+        var role = richguy.Data.Role as RichGuyRole;
+        var shop = role.shopui.transform.FindChild("Shop");
+        var revealer = shop.transform.FindChild("Revealer");
+        var revealerprice = revealer.transform.FindChild("Purchase");
+        Button revealertext = revealerprice.GetComponent<Button>();
+        revealertext.onClick.AddListener(new System.Action(HandleRevealClick));
+    }
+
+    public static void HandleRevealClick()
+    {
+        OnRevealPurchase(PlayerControl.LocalPlayer);
     }
 }
