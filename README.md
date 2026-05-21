@@ -5,7 +5,7 @@
 -----------------------
 
 <div align="center">
-  <img src="./TownOfTransformation/Resources/totbanner.png" alt="Town Of Transformation banner"/>
+  <img src="./TownOfTransformation/Resources/tot-banner-final.png" alt="Town Of Transformation banner"/>
   <p>Tow Of Transformation</p>
 </div>
 <br/>
